@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horizon Summit — Northlight Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   EDIT ME — everything you need to customize lives right here.
+   ============================================================ */
+
+:root{
+  --bg:            #0F1620;
+  --bg-panel:      #17212D;
+  --brass:         #B4915B;
+  --brass-bright:  #D4B378;
+  --ink:           #ECE7DC;
+  --ink-dim:       #A9AFB8;
+  --rule:          rgba(180,145,91,0.28);
+  --serif: 'Fraunces', serif;
+  --sans: 'Archivo', sans-serif;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap{
+  display:grid;
+  grid-template-columns: 340px 1fr;
+  min-height:100vh;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{
+  background:var(--bg-panel);
+  padding: 56px 40px;
+  border-right:1px solid var(--rule);
+  display:flex;
+  flex-direction:column;
+  gap:36px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+.mark{
+  font-family:var(--serif);
+  font-size:15px;
+  letter-spacing:0.04em;
+  color:var(--brass-bright);
+}
+.mark span{ color:var(--ink-dim); }
+
+.facts{ display:flex; flex-direction:column; gap:28px; }
+.fact-label{
+  font-size:12px;
+  color:var(--ink-dim);
+  margin-bottom:6px;
+}
+.fact-value{
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:500;
+  color:var(--ink);
+}
+.fact-sub{ font-size:14px; color:var(--ink-dim); margin-top:2px; }
+
+.countdown{
+  margin-top:auto;
+  padding-top:28px;
+  border-top:1px solid var(--rule);
+}
+.countdown-label{ font-size:12px; color:var(--ink-dim); margin-bottom:10px; }
+.countdown-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.countdown-cell{ text-align:left; }
+.countdown-num{
+  font-family:var(--serif);
+  font-size:26px;
+  color:var(--brass-bright);
+  font-variant-numeric: tabular-nums;
+}
+.countdown-unit{ font-size:11px; color:var(--ink-dim); }
+
+/* ---------- MAIN ---------- */
+main{ padding: 90px 72px 100px; max-width:760px; }
+
+.eyebrow{
+  font-size:13px;
+  color:var(--brass);
+  margin-bottom:18px;
+}
+h1{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(38px, 5vw, 58px);
+  line-height:1.08;
+  letter-spacing:-0.01em;
+  max-width:14ch;
+}
+.lede{
+  margin-top:24px;
+  font-size:18px;
+  color:var(--ink-dim);
+  max-width:52ch;
+  line-height:1.65;
+}
+
+.divider{
+  width:48px; height:2px; background:var(--brass);
+  margin: 48px 0;
+}
+
+section h2{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:26px;
+  margin-bottom:28px;
+}
+
+.agenda{ display:flex; flex-direction:column; }
+.agenda-item{
+  display:grid;
+  grid-template-columns: 90px 1fr;
+  gap:24px;
+  padding: 20px 0;
+  border-top:1px solid var(--rule);
+}
+.agenda-item:last-child{ border-bottom:1px solid var(--rule); }
+.agenda-time{
+  font-family:var(--serif);
+  font-size:16px;
+  color:var(--brass-bright);
+  white-space:nowrap;
+}
+.agenda-title{ font-size:16px; font-weight:600; margin-bottom:4px; }
+.agenda-desc{ font-size:14px; color:var(--ink-dim); }
+
+.details-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:28px;
+}
+.detail-label{ font-size:12px; color:var(--ink-dim); margin-bottom:6px; }
+.detail-value{ font-size:15px; }
+
+/* ---------- RSVP ---------- */
+.rsvp{
+  background:var(--bg-panel);
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:44px;
+}
+.field{ margin-bottom:22px; }
+.field label{
+  display:block;
+  font-size:12px;
+  color:var(--ink-dim);
+  margin-bottom:8px;
+}
+.field input[type=text],
+.field input[type=email],
+.field select{
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--rule);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  padding:8px 2px;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.field input:focus, .field select:focus{ border-color:var(--brass); }
+.field select{ appearance:none; cursor:pointer; }
+.field select option{ background:var(--bg-panel); color:var(--ink); }
+
+.attend-toggle{ display:flex; gap:10px; }
+.attend-btn{
+  flex:1;
+  padding:14px;
+  text-align:center;
+  border:1px solid var(--rule);
+  background:transparent;
+  color:var(--ink-dim);
+  font-family:var(--sans);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition: all 0.15s;
+}
+.attend-btn.active{
+  border-color:var(--brass);
+  color:var(--brass-bright);
+  background:rgba(180,145,91,0.08);
+}
+
+.guests-field{
+  max-height:0;
+  overflow:hidden;
+  transition: max-height 0.25s ease;
+}
+.guests-field.open{ max-height:120px; }
+
+.submit-btn{
+  width:100%;
+  padding:16px;
+  margin-top:8px;
+  background:var(--brass);
+  color:var(--bg);
+  border:none;
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:0.01em;
+  cursor:pointer;
+  transition: background 0.15s;
+}
+.submit-btn:hover{ background:var(--brass-bright); }
+.submit-btn:disabled{ opacity:0.5; cursor:default; }
+
+.rsvp-note{ font-size:13px; color:var(--ink-dim); margin-top:16px; }
+
+.confirm{
+  display:none;
+  text-align:center;
+  padding:20px 0;
+}
+.confirm.show{ display:block; }
+.confirm-mark{ font-family:var(--serif); font-size:32px; color:var(--brass-bright); margin-bottom:12px; }
+.confirm-text{ color:var(--ink-dim); font-size:15px; }
+
+footer{
+  padding:40px 72px;
+  font-size:13px;
+  color:var(--ink-dim);
+  border-top:1px solid var(--rule);
+}
+
+@media (max-width: 860px){
+  .wrap{ grid-template-columns:1fr; }
+  .sidebar{ position:relative; height:auto; padding:40px 28px; }
+  main{ padding:56px 28px 80px; }
+  .details-grid{ grid-template-columns:1fr; }
+  .rsvp{ padding:28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <aside class="sidebar">
+    <div class="mark">NORTHLIGHT <span>Consulting</span></div>
+
+    <div class="facts">
+      <div>
+        <div class="fact-label">Date</div>
+        <div class="fact-value" id="factDate">Thu, 12 Mar 2027</div>
+      </div>
+      <div>
+        <div class="fact-label">Time</div>
+        <div class="fact-value">4:00 PM</div>
+        <div class="fact-sub">Doors · reception follows</div>
+      </div>
+      <div>
+        <div class="fact-label">Location</div>
+        <div class="fact-value">The Ridgeline Hall</div>
+        <div class="fact-sub">88 Harbourview Ave, Level 12</div>
+      </div>
+    </div>
+
+    <div class="countdown">
+      <div class="countdown-label">Time until the summit</div>
+      <div class="countdown-grid" id="countdown">
+        <div class="countdown-cell"><div class="countdown-num" id="cd-days">–</div><div class="countdown-unit">days</div></div>
+        <div class="countdown-cell"><div class="countdown-num" id="cd-hours">–</div><div class="countdown-unit">hrs</div></div>
+        <div class="countdown-cell"><div class="countdown-num" id="cd-mins">–</div><div class="countdown-unit">min</div></div>
+        <div class="countdown-cell"><div class="countdown-num" id="cd-secs">–</div><div class="countdown-unit">sec</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="eyebrow">By invitation — Leadership &amp; Partners</div>
+    <h1>The Horizon Summit</h1>
+    <p class="lede">An evening to close the year's work and open the next: a short working session, honest conversation about where we're headed, and dinner with the people who got us here.</p>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Agenda</h2>
+      <div class="agenda">
+        <div class="agenda-item">
+          <div class="agenda-time">4:00 PM</div>
+          <div>
+            <div class="agenda-title">Arrival &amp; check-in</div>
+            <div class="agenda-desc">Light refreshments in the Ridgeline foyer.</div>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">4:30 PM</div>
+          <div>
+            <div class="agenda-title">State of the year</div>
+            <div class="agenda-desc">A short address on what shipped, what didn't, and why.</div>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">5:15 PM</div>
+          <div>
+            <div class="agenda-title">Roundtables</div>
+            <div class="agenda-desc">Small-group sessions on next year's three priorities.</div>
+          </div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">6:30 PM</div>
+          <div>
+            <div class="agenda-title">Dinner</div>
+            <div class="agenda-desc">Seated dinner and closing toast on the terrace.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Good to know</h2>
+      <div class="details-grid">
+        <div>
+          <div class="detail-label">Dress code</div>
+          <div class="detail-value">Business formal</div>
+        </div>
+        <div>
+          <div class="detail-label">Parking</div>
+          <div class="detail-value">Valet available at the Harbourview entrance</div>
+        </div>
+        <div>
+          <div class="detail-label">RSVP by</div>
+          <div class="detail-value">Friday, 28 February 2027</div>
+        </div>
+        <div>
+          <div class="detail-label">Questions</div>
+          <div class="detail-value">events@northlight.co</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="rsvp-section">
+      <h2>RSVP</h2>
+      <div class="rsvp">
+
+        <form id="rsvpForm">
+          <!-- FORM BACKEND: submissions are sent to a Google Apps Script web app
+               URL, which writes each response as a new row in a Google Sheet.
+               See the setup steps provided separately — you just need to paste
+               your deployed script URL into SHEET_ENDPOINT below. -->
+          <input type="hidden" name="attending" id="attendingField" value="Yes">
+
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="Name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="Email" required>
+          </div>
+
+          <div class="field">
+            <label>Will you be attending?</label>
+            <div class="attend-toggle">
+              <button type="button" class="attend-btn active" data-value="Yes" onclick="setAttending(this)">Joyfully, yes</button>
+              <button type="button" class="attend-btn" data-value="No" onclick="setAttending(this)">Can't make it</button>
+            </div>
+          </div>
+
+          <div class="field guests-field open" id="guestsWrap">
+            <label for="guests">Guests joining you</label>
+            <select id="guests" name="Additional guests">
+              <option value="0">Just me</option>
+              <option value="1">+1</option>
+              <option value="2">+2</option>
+              <option value="3">+3</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Send RSVP</button>
+          <p class="rsvp-note">You'll get a copy of your response by email.</p>
+        </form>
+
+        <div class="confirm" id="confirm">
+          <div class="confirm-mark">You're on the list.</div>
+          <p class="confirm-text">Thanks for letting us know — we'll follow up with final logistics closer to the date.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>Northlight Consulting · Horizon Summit 2027</footer>
+
+<script>
+// ---- Countdown ----
+const EVENT_DATE = new Date('2027-03-12T16:00:00');
+function updateCountdown(){
+  const now = new Date();
+  let diff = EVENT_DATE - now;
+  if(diff < 0) diff = 0;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent = d;
+  document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ---- Attending toggle ----
+function setAttending(btn){
+  document.querySelectorAll('.attend-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('attendingField').value = btn.dataset.value;
+  const guestsWrap = document.getElementById('guestsWrap');
+  if(btn.dataset.value === 'Yes'){
+    guestsWrap.classList.add('open');
+  } else {
+    guestsWrap.classList.remove('open');
+  }
+}
+
+// ---- Form submit (Google Sheets via Apps Script — free, no backend needed) ----
+// EDIT ME: paste your deployed Apps Script Web App URL here (see setup steps).
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzTtL01Mv86DHjvtoMwtByRBBFqo_BWA4Xnf33hrjLnoVneSWDVUoaB8quEkRuIxtVH_g/exec';
+
+const form = document.getElementById('rsvpForm');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const data = new FormData(form);
+  const payload = {};
+  data.forEach((value, key) => { payload[key] = value; });
+
+  fetch(SHEET_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors', // Apps Script doesn't return CORS headers; we don't need to read the response
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    form.style.display = 'none';
+    document.getElementById('confirm').classList.add('show');
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = 'Send RSVP';
+    alert('Something went wrong sending your RSVP — please try again, or email events@northlight.co directly.');
+  });
+});
+</script>
+
+</body>
+</html>
