@@ -362,13 +362,10 @@ footer{
       <div class="rsvp">
 
         <form id="rsvpForm">
-          <!-- FORM BACKEND: this sends submissions straight to your inbox, free,
-               no signup — just replace YOUREMAIL@example.com below with your
-               real address. The first submission after you deploy will ask
-               you to click a one-time confirmation link. -->
-          <input type="hidden" name="_subject" value="New RSVP — Horizon Summit">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
+          <!-- FORM BACKEND: submissions are sent to a Google Apps Script web app
+               URL, which writes each response as a new row in a Google Sheet.
+               See the setup steps provided separately — you just need to paste
+               your deployed script URL into SHEET_ENDPOINT below. -->
           <input type="hidden" name="attending" id="attendingField" value="Yes">
 
           <div class="field">
@@ -447,10 +444,11 @@ function setAttending(btn){
   }
 }
 
-// ---- Form submit (formsubmit.co — free, no backend needed) ----
+// ---- Form submit (Google Sheets via Apps Script — free, no backend needed) ----
+// EDIT ME: paste your deployed Apps Script Web App URL here (see setup steps).
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzaGcM8nAEgpMpaSe7HnVDdhaSdbUn7tKGgX8dq4xguXVh1gtlbCz2CJfDIFoppH48JYA/exec';
+
 const form = document.getElementById('rsvpForm');
-form.action = 'https://formsubmit.co/dinesh.dk.3420@gmail.com';
-form.method = 'POST';
 
 form.addEventListener('submit', function(e){
   e.preventDefault();
@@ -458,10 +456,15 @@ form.addEventListener('submit', function(e){
   btn.disabled = true;
   btn.textContent = 'Sending…';
 
-  fetch(form.action, {
+  const data = new FormData(form);
+  const payload = {};
+  data.forEach((value, key) => { payload[key] = value; });
+
+  fetch(SHEET_ENDPOINT, {
     method: 'POST',
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
+    mode: 'no-cors', // Apps Script doesn't return CORS headers; we don't need to read the response
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
   })
   .then(() => {
     form.style.display = 'none';
